@@ -37,7 +37,8 @@ class ArticleController
             $body = file_get_contents('php://input');
             $object = json_decode($body);
             $article = new Article();
-            $article->setTitle($object->title);
+            //htmlspecialchars is the universal fix to securing your stuff from SQL injections
+            $article->setTitle(htmlspecialchars($object->title));
             $article->setContent($object->content);
             $article->setAuthor("Ruub");
 

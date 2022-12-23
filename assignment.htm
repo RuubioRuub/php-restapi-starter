@@ -17,7 +17,7 @@
 
 <body>
 
-    
+
     <h1>Post a new Article</h1>
     <form id="myForm">
         <label for="title">Title:</label><input type="text" id="title" />
@@ -32,7 +32,6 @@
         <p>Articles go here...</p>
     </div>
     <script>
-
         function loadData() {
 
             // Assignment 2
@@ -40,9 +39,33 @@
             // use fetch to retrieve the articles from http://localhost/api/article
             // Note: Assignment 1 has to be completed before this works!
 
+            fetch('http://localhost/api/article')
+                .then(response => response.json())
+                .then((articles) => {
+
+                    articles.forEach(element => {
+                        appendArticle(element);
+                    });
+
+                    console.log('Output: ', articles);
+                }).catch(err => console.error(err));
+
+
             // Create an H2 with the title and a p with the content for every article
             // And display the articles on the page by appending them to the 'articles' div
+        }
 
+        function appendArticle(article) {
+            const articlediv = document.getElementById('articles');
+
+            const title = document.createElement('h2');
+            title.innerText = article.title;
+
+            const newp = document.createElement('p');
+            newp.innerText = article.content;
+
+            articlediv.appendChild(title);
+            articlediv.appendChild(newp);
         }
 
         function sendForm() {
@@ -50,8 +73,22 @@
             // Assignment 3
 
             // Create an object with the data from the form (title and content)
+            const newArticle = {
+                title: document.getElementById('title').value,
+                content: document.getElementById('content').value,
+                author: 'Ruubio'
+            };
 
             // Post the data to http://localhost/api/article using fetch
+            fetch('http://localhost/api/article', {
+                method: 'POST',
+                //mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+
+                },
+                body: JSON.stringify(newArticle),
+            }).catch(err => console.error(err));
 
             // (Optional) Reload the articles on the page afterward
         }

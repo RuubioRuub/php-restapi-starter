@@ -4,7 +4,7 @@ require __DIR__ . '/../services/articleservice.php';
 
 class ArticleController extends Controller {
 
-    private $articleService; 
+    private $articleService = new ArticleService(); 
 
     // initialize services
     function __construct() {
